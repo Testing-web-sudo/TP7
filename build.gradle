@@ -8,6 +8,14 @@ plugins {
     id("de.zebrajaeger.sendMail") version "0.2.2"
 }
 
+/*token
+* ID : myRandomID_34892
+* 37064854aaa --> Github
+* https://0962-154-121-26-74.ngrok-free.app
+* Rayane 12345 -> Jenkins
+*
+* */
+
 group = 'com.example'
 version = '1.0'
 
@@ -28,7 +36,7 @@ cucumberReports {
 }
 
 test {
-    finalizedBy('jacocoTestReport')
+     finalizedBy('jacocoTestReport')
     finalizedBy('sonarqube')
 }
 
