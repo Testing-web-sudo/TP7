@@ -11,7 +11,7 @@ agent any
                                     steps {
                                         script {
                                             echo 'Tests en cours.....'
-                                            sh './gradlew test'
+                                            bat './gradlew test'
                         
                                         }
                         
