@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        // Phase Test - Lancement des tests unitaires et génération des rapports Cucumber lol
+        // Phase Test - Lancement des tests unitaires et génération des rapports Cucumber lol time to work
         stage('Test') {
             steps {
                 script {
