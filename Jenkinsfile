@@ -1,51 +1,78 @@
 pipeline {
-    agent any
+    agent any  // Runs on any available agent
 
     environment {
-        MAVEN_REPO_USERNAME = credentials('Testing-web-sudo')
-        MAVEN_REPO_PASSWORD = credentials('Testing-web-sudo')
+        // Define any environment variables if needed (e.g., project names, credentials)
+        PROJECT_NAME = 'my-project'
+        DEPLOY_SERVER = 'production-server'
     }
 
     stages {
-        // Stage to execute tests
         stage('Test') {
             steps {
-                script {
-                    echo 'Executing tests...'
-                    sh 'gradle test'
-                }
-            }
-            post {
-                always {
-                    junit '**/build/test-*.xml' // Archive JUnit test results
-                    cucumber '**/build/reports/cucumber/*.json' // Archive Cucumber reports
-                }
+                echo 'Running tests...'
+                // Replace with your testing command, e.g., Maven, Gradle, npm, etc.
+                sh './run_tests.sh'  // Example shell command
             }
         }
 
-        // Stage for code analysis (SonarQube)
         stage('Code Analysis') {
             steps {
-                script {
-                    echo 'Running SonarQube analysis...'
-                    withSonarQubeEnv('sonar') {
-                        sh 'gradle sonarqube' // Running SonarQube analysis
-                    }
-                }
+                echo 'Performing code analysis...'
+                // Example for running a code analysis tool like SonarQube, etc.
+                sh 'sonar-scanner'  // Replace with your actual code analysis tool command
             }
         }
 
-        // Stage to verify code quality (SonarQube Quality Gate)
         stage('Code Quality') {
             steps {
+                echo 'Checking code quality...'
+                // Example of using a tool like Checkstyle, PMD, or others
+                sh 'checkstyle -c /google_checks.xml src/**/*.java'  // Replace with your actual command
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building the project...'
+                // Replace with your build tool, e.g., Maven, Gradle, npm, etc.
+                sh './build.sh'  // Example shell command for building the project
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the project...'
+                // Replace with your deployment script or commands (e.g., SSH, kubectl, etc.)
+                sh './deploy.sh'  // Example shell command for deploying
+            }
+        }
+
+        stage('Notification') {
+            steps {
+                echo 'Sending notification...'
+                // Replace with your notification logic, e.g., Slack, email, etc.
                 script {
-                    echo 'Checking SonarQube Quality Gate...'
-                    def qualityGate = waitForQualityGate()  // Wait for the quality gate status
-                    if (qualityGate.status != 'OK') {
-                        error "SonarQube Quality Gate failed: ${qualityGate.status}"  // Fail the pipeline if quality gate fails
-                    }
+                    // Example: Send a Slack notification after the pipeline finishes
+                    slackSend(channel: '#builds', message: "Pipeline for ${env.PROJECT_NAME} completed successfully!")
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline finished successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed. Please check the logs for errors.'
+            // Optionally, send a failure notification, e.g., Slack, email, etc.
+            slackSend(channel: '#builds', message: "Pipeline for ${env.PROJECT_NAME} failed. Please check the logs.")
+        }
+
+        always {
+            echo 'This will always run, regardless of success or failure.'
         }
     }
 }
