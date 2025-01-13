@@ -27,14 +27,14 @@ pipeline {
         }
         
          post {
-        always {
-            echo 'Pipeline termine.'
-        }
-        success {
-            echo 'Pipeline complete avec succes.'
-        }
-        failure {
-            echo 'Le pipeline a echoue.'
-        }
-    }
-}
+            always {
+                echo 'Pipeline termine.'
+            }
+            success {
+                echo 'Pipeline complete avec succes.'
+            }
+            failure {
+                echo 'Le pipeline a echoue.'
+            }
+     }
+} }
