@@ -1,40 +1,34 @@
-
-
-
 pipeline {
-    agent any 
-
-    environment {
-        MAVEN_REPO_USERNAME = credentials('myRandomID_34892')
-        MAVEN_REPO_PASSWORD = credentials('myRandomID_34892')
-    }
+    agent any
 
     stages {
-        // Étape pour exécuter les tests
-        stage('test') {
+        // Phase Test - Lancement des tests unitaires et génération des rapports Cucumber
+        stage('Test') {
             steps {
                 script {
-                    echo 'Execution des tests...'
+                    echo 'Lancement des tests unitaires...'
                     sh 'chmod +x gradle'
-                    sh './gradlew test'
+                    sh './gradlew test' // Exécute les tests unitaires avec Gradle
                 }
             }
             post {
                 always {
-                    cucumber '**/reports/*.json'
+                    // Archivage des résultats des tests unitaires
+                    junit '**/build/test-results/test/*.xml'
+                    // Génération des rapports de tests Cucumber
+                    cucumber '**/build/reports/cucumber/*.json'
                 }
             }
         }
-        
-         post {
-            always {
-                echo 'Pipeline termine.'
+    }
+
+    // Post-actions globales (par exemple, des notifications en cas d'échec)
+    post {
+        failure {
+            script {
+                echo 'Tests échoués. Envoi d’une notification d’échec.'
+                // Logique pour envoyer des notifications d'échec si nécessaire
             }
-            success {
-                echo 'Pipeline complete avec succes.'
-            }
-            failure {
-                echo 'Le pipeline a echoue.'
-            }
-     }
-} }
+        }
+    }
+}
