@@ -28,9 +28,48 @@ agent any
                                             }
                                     }
                         
-                        }
+                           }
+
+                           stage('AnalyseCode') {
+
+
+                                       steps {
+                                           script {
+                                               echo 'Analyse Sonarqube en cours...'
+                                               withSonarQubeEnv('sonar') {
+                                                   bat './gradlew sonarqube'
+                                               }
+                                           }
+                                       }
+                                   }
+
+                             stage('QualityGate') {
+                                                         steps {
+                                                            script {
+                                                                echo 'SonarQube Quality Gate Test en cours...'
+                                                               def qualityGate = waitForQualityGate()
+                                                                 if (qualityGate.status != 'OK') {
+                                                                     error "echec dans SonarQube Quality Gate : ${qualityGate.status}"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+
+                                                    stage('Build') {
+                                                        steps {
+                                                            script {
+                                                                echo 'Build du projet...'
+
+                                                                bat './gradlew build'
+                                                            }
+                                                        }
+                                                    }
         
-        
-                 }
+
+
+
+
+           }
 }
 
