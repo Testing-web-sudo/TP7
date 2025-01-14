@@ -65,6 +65,17 @@ agent any
                                                             }
                                                         }
                                                     }
+
+                                 stage('ArchiverArtifacts') {
+                                            steps {
+                
+                                                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+                                                archiveArtifacts artifacts: 'build/reports/tests/**/*', fingerprint: true
+                                                archiveArtifacts artifacts: 'build/reports/cucumber/**/*', fingerprint: true
+                                            }
+                                        }
+
+            
         
 
 
