@@ -79,7 +79,7 @@ agent any
                                     steps {
                                         script {
                                             echo 'Deploiement de le application...'
-                                            sh './gradlew publish'
+                                            bat './gradlew publish'
                                         }
                                     }
                                 }
