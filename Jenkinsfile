@@ -9,7 +9,7 @@ agent any
             stages {
          
 
-                                stage('test') {
+                                stage('test') { 
                                     steps {
                                         script {
                                             echo 'Tests en cours.....'
