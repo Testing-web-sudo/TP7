@@ -53,7 +53,7 @@ sonarqube {
     properties {
         property "sonar.projectKey", "com.example:my-project"
         property "sonar.projectName", "Building Tools Project"
-        property "sonar.host.url", "http://197.140.142.80:9000"
+        property "sonar.host.url", "http://localhost:9000/"
     }
 }
 
