@@ -75,6 +75,15 @@ agent any
                                             }
                                         }
 
+                stage('Deploy') {
+                                    steps {
+                                        script {
+                                            echo 'Deploiement de le application...'
+                                            sh './gradlew publish'
+                                        }
+                                    }
+                                }
+
             
         
 
