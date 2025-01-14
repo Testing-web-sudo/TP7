@@ -6,7 +6,7 @@ agent any
 
 
     
-            stages {
+            stages { 
          
 
                                 stage('test') { 
