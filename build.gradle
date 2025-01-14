@@ -4,7 +4,7 @@ plugins {
     id 'jacoco'
     id("org.sonarqube") version "4.4.0.3356"
     id 'maven-publish'
-    id "com.github.jk1.dependency-license-report" version "1.16"
+    id "com.github.jk1.dependency-license-report" version "1.16"    
     id("de.zebrajaeger.sendMail") version "0.2.2"
 }
 
