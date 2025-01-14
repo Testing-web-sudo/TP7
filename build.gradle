@@ -36,8 +36,8 @@ cucumberReports {
 }
 
 test {
-    /* finalizedBy('jacocoTestReport')
-    finalizedBy('sonarqube') */
+    finalizedBy('jacocoTestReport')
+    finalizedBy('sonarqube')
 }
 
 jacocoTestReport {
