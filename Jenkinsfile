@@ -84,6 +84,24 @@ agent any
                                     }
                                 }
 
+                stage('NotifSlack') {
+                                    steps {
+
+                                        echo 'Notification Slack...'
+                                            bat './gradlew sendSlackNotification'
+                                    }
+                                }
+
+                stage('SendMail') {
+                                    steps {
+
+                                        echo 'Notification Slack...'
+                                            bat './gradlew sendMail'
+                                    }
+                                }
+
+                
+
             
         
 
